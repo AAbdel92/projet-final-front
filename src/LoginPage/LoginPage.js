@@ -7,26 +7,31 @@ class LoginPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            titre : "J'ai pas cliqué"
+        this.state = {            
         }
+    }
+
+    addUser = (pseudo, role) => {
+        this.props.user(pseudo, role);
     }
     
 
     seConnecter = () => {
         axios.post("/login?username=" + document.getElementById("pseudo").value + "&password=" + document.getElementById("motDePasse"))
         .then(function (response) {
-            <Redirect to="/users"/>
+           this.addUser(response.data.pseudo, response.data.role.nom);
             console.log(response)
             .catch(function (error) {
-               <Redirect to="/users"/>
+               console.log(error)
             })
         })
     }
 
-    changerTitre = () => {
-        this.props.titre(this.props.name);
-    }    
+    testConnection = () => {
+       // this.addUser("Damien", "Admin");
+       this.props.user("Damien", "Admin");
+    }
+     
     
     render() {
         return (
@@ -47,7 +52,7 @@ class LoginPage extends Component {
                     placeholder="mot de passe"
                     id="motDePasse"
                  />
-                 <Button onClick={this.seConnecter}>Valider</Button>                
+                 <Button onClick={this.testConnection}>Valider</Button>                
             </Container>
         );
     }

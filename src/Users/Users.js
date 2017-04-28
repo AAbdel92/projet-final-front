@@ -18,17 +18,13 @@ class Users extends Component {
         .catch( (error) => {
             console.log(error)
         });
-    }
-
-    changerTitre = () => {
-        this.props.titre(this.props.name);
-    }    
+    }     
 
     render() {
         return(
-            <Container as="main" textAlign="center">
+            <Container textAlign="center">
                 <Divider hidden />
-                <Header>{this.props.name}</Header>
+                <Header as="h3">{this.props.name}</Header>
                 <Divider />
                 {
                     this.state.users.map(
@@ -39,10 +35,9 @@ class Users extends Component {
                                         description={user.roles.map(
                                             (role) => role.nom + " "
                                         )}
-                                    />
+                                />
                     )
-                }
-                <Button onClick={this.changerTitre}>Change le titre</Button>
+                }                
             </Container>
         )
     };
