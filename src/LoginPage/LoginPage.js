@@ -17,10 +17,20 @@ class LoginPage extends Component {
     
 
     seConnecter = () => {
-        axios.post("/login?username=" + document.getElementById("pseudo").value + "&password=" + document.getElementById("motDePasse"))
+        axios.post("/login?username=" + document.getElementById("pseudo").value + "&password=" + document.getElementById("motDePasse").value)
         .then(function (response) {
-           this.addUser(response.data.pseudo, response.data.role.nom);
-            console.log(response)
+            let user = {};
+            user["email"] = document.getElementById("pseudo").value;
+            user["password"] = document.getElementById("motDePasse").value;
+            axios.post("api/users/login", user)
+                .then(function (response) {
+                     //addUser(response.data.firstname, response.data.role.name);
+                     this.props.user(response.data.firstname, response.data.role.name);
+                     console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })         
             .catch(function (error) {
                console.log(error)
             })
@@ -52,7 +62,7 @@ class LoginPage extends Component {
                     placeholder="mot de passe"
                     id="motDePasse"
                  />
-                 <Button onClick={this.testConnection}>Valider</Button>                
+                 <Button onClick={this.seConnecter}>Valider</Button>                
             </Container>
         );
     }
