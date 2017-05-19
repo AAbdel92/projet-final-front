@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Container, Menu, Button} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 class MyNav extends Component {
 
@@ -11,7 +12,18 @@ class MyNav extends Component {
         }
     }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })  
+    loggingOut = (e, { name }) => {
+        const self = this;
+        this.handleItemClick(e, { name });
+        axios.get("/logout")
+        .then(function (response) {
+            self.props.methode(false, "", "");
+        })
+    }
+
+    handleItemClick = (e, { name }) => {
+        this.setState({ activeItem: name })
+    }  
     
     render() {
         return (
@@ -23,7 +35,7 @@ class MyNav extends Component {
         <Menu.Item as={Link} to="/"name='login' active={this.state.activeItem === 'login'} onClick={this.handleItemClick}>
         Se Connecter
         </Menu.Item>
-        <Menu.Item name='logout' active={this.state.activeItem === 'logout'} onClick={this.handleItemClick} />
+        <Menu.Item name='logout' active={this.state.activeItem === 'logout'} onClick={this.loggingOut} />
       </Menu>
         </Container>
         );

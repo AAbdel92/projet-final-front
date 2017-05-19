@@ -18,9 +18,29 @@ class App extends Component {
           }
      }
 
-     loadUser = (pseudo, role) => {  
+     componentDidMount() {
+       this.checkLocalStorage();
+     }
+
+     componentDidUpdate(prevProps, prevState) {
+    localStorage.setItem('state', JSON.stringify(this.state));
+}
+
+     checkLocalStorage = () => {
+       try {
+         if (localStorage.getItem('state') !== null) {
+         this.setState((prevState) => {
+          return prevState = JSON.parse(localStorage.getItem('state'))
+        });
+         }
+       } catch (err) {
+          console.log(err);
+         }         
+       }     
+
+     loadUser = (boolean, pseudo, role) => {  
   this.setState({
-    loggedIn : true,
+    loggedIn : boolean,
     user : {
       name : pseudo,
       role : role

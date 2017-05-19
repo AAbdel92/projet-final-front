@@ -12,16 +12,24 @@ const history = createBrowserHistory();
 
 class MySite extends Component {
 
-    sendUser = (pseudo, role) => {
-        this.props.methode(pseudo, role);
-    }
+    // sendUser = (boolean, pseudo, role) => {
+    //     this.props.methode(boolean, pseudo, role);
+    // }
+
+    // changeLoggedIn = (boolean) => {
+    //     this.props.loggedIn = boolean;
+    // } 
    
   pageLogin = () => {
-    return <LoginPage name="Page de Login" user={this.sendUser}/>
+    return <LoginPage name="Page de Login" methode={this.props.methode}/>
   }
 
   pageAdmin = () => {
     return <AdminPage name="Page Admin" />
+  }
+
+  barreNav = () => {
+      return <MyNav methode={this.props.methode}/>
   } 
 
   componentWillUpdate() {
@@ -30,7 +38,7 @@ class MySite extends Component {
   }
   componentDidUpdate() {
       console.log("did update")
-       this.props.loggedIn ? (history.push('/admin') ) : (history.push('/') );
+       this.props.loggedIn ? (history.push('/' + this.props.user.role) ) : (history.push('/') );
   }
 
   componentDidMount () {
@@ -50,8 +58,8 @@ class MySite extends Component {
           nom : {this.props.user.name} et role : {this.props.user.role} et loggedIn : {this.props.loggedIn.toString()}
           <Route path="/" component={MyHeader} />
           <Route exact path="/" render={this.pageLogin} />
-          <Route path="/admin" component={MyNav} />
-          <Route path="/admin" render={this.pageAdmin} />
+          <Route path="/administrateur" render={this.barreNav} />
+          <Route path="/administrateur" render={this.pageAdmin} />
           {/*{
             this.props.loggedIn ? (history.push('/admin') ) : (history.push('/') )
           }*/}

@@ -13,19 +13,20 @@ class LoginPage extends Component {
 
     addUser = (pseudo, role) => {
         this.props.user(pseudo, role);
-    }
-    
+    }   
+   
 
     seConnecter = () => {
+        const self = this;
         axios.post("/login?username=" + document.getElementById("pseudo").value + "&password=" + document.getElementById("motDePasse").value)
         .then(function (response) {
             let user = {};
             user["email"] = document.getElementById("pseudo").value;
             user["password"] = document.getElementById("motDePasse").value;
-            axios.post("api/users/login", user)
+            axios.post("api/users/logged", user)
                 .then(function (response) {
                      //addUser(response.data.firstname, response.data.role.name);
-                     this.props.user(response.data.firstname, response.data.role.name);
+                     self.props.methode(true, response.data.firstname, response.data.role.name);
                      console.log(response)
                 })
                 .catch(function (error) {
