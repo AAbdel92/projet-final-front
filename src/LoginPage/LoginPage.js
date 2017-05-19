@@ -13,9 +13,20 @@ class LoginPage extends Component {
 
     addUser = (pseudo, role) => {
         this.props.user(pseudo, role);
+    }
+
+    seConnecterCors = () => {
+        axios.post("http://localhost:8080/api/users/logged", user)
+                .then(function (response) {                    
+                     self.props.methode(true, response.data.firstname, response.data.role.name);
+                     console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
     }   
    
-
+    // a utiliser après avoir fait un build
     seConnecter = () => {
         const self = this;
         axios.post("/login?username=" + document.getElementById("pseudo").value + "&password=" + document.getElementById("motDePasse").value)
@@ -24,8 +35,7 @@ class LoginPage extends Component {
             user["email"] = document.getElementById("pseudo").value;
             user["password"] = document.getElementById("motDePasse").value;
             axios.post("api/users/logged", user)
-                .then(function (response) {
-                     //addUser(response.data.firstname, response.data.role.name);
+                .then(function (response) {                    
                      self.props.methode(true, response.data.firstname, response.data.role.name);
                      console.log(response)
                 })
@@ -63,7 +73,8 @@ class LoginPage extends Component {
                     placeholder="mot de passe"
                     id="motDePasse"
                  />
-                 <Button onClick={this.seConnecter}>Valider</Button>                
+                 {/* A changer en this.seConnecter si build*/}
+                 <Button onClick={this.seConnecterCors}>Valider</Button>                
             </Container>
         );
     }

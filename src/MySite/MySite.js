@@ -29,7 +29,7 @@ class MySite extends Component {
   }
 
   barreNav = () => {
-      return <MyNav methode={this.props.methode}/>
+      return <MyNav user={this.props.user} methode={this.props.methode}/>
   } 
 
   componentWillUpdate() {
