@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Router, Route, Redirect} from "react-router";
 import MySite from "./MySite/MySite.js";
 import "semantic-ui-css/semantic.min.css";
 
@@ -11,19 +10,28 @@ class App extends Component {
         this.state = {     
             loggedIn : false,
             user : {
-                name : "",
-                prenom : "",
-                role : ""
+                lastname : "",
+                firstname : "",
+                role : {
+                  id : 0,
+                  name : ""
+                },
+                promo : {
+                  id : 0,
+                  name : ""
+                }
              }
           }
      }
 
      componentDidMount() {
+       console.log("App did mount")
        this.checkLocalStorage();
      }
 
      componentDidUpdate(prevProps, prevState) {
-    localStorage.setItem('state', JSON.stringify(this.state));
+        console.log("App did update")
+        localStorage.setItem('state', JSON.stringify(this.state));
 }
 
      checkLocalStorage = () => {
@@ -38,19 +46,35 @@ class App extends Component {
          }         
        }     
 
-     loadUser = (boolean, pseudo, role) => {  
+     getUser = (boolean, newUser) => {  
   this.setState({
     loggedIn : boolean,
-    user : {
-      name : pseudo,
-      role : role
-    }    
+    user : newUser
   })  
 }
 
-  render() {   
+deleteUser = () => {
+  this.setState({
+    loggedIn : false,
+    user : {
+                lastname : "",
+                firstname : "",
+                role : {
+                  id : 0,
+                  name : ""
+                },
+                promo : {
+                  id : 0,
+                  name : ""
+                }
+             }
+  })
+}
+
+  render() {
+    console.log("App render")   
     return (      
-        <MySite user={this.state.user} loggedIn={this.state.loggedIn} methode={this.loadUser} />
+        <MySite user={this.state.user} loggedIn={this.state.loggedIn} getUser={this.getUser} deleteUser={this.deleteUser}/>
     );
   }
 }

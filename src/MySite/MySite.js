@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import {Router, Route, Redirect} from "react-router";
+import {Router, Route, IndexRoute} from "react-router";
+import {Card} from "semantic-ui-react";
 import MyHeader from "../MyHeader/MyHeader.js";
 import MyNav from "../MyNav/MyNav.js";
 import LoginPage from "../LoginPage/LoginPage.js";
-import AdminPage from "../Users/Users.js";
+import AdminPage from "../AdminPage/AdminPage.js";
+import IndexPage from "../IndexPage/IndexPage.js";
+import NotFound from "../NotFound/NotFound.js";
+import EditingPage from "../EditingPage/EditingPage.js";
+import ReadingPage from "../ReadingPage/ReadingPage.js";
+import EntitiesPage from "../EntitiesPage/EntitiesPage.js";
+import PromoManagementPage from "../PromoManagementPage/PromoManagementPage.js";
 import createBrowserHistory from "history/createBrowserHistory";
 
 
@@ -12,60 +19,88 @@ const history = createBrowserHistory();
 
 class MySite extends Component {
 
-    // sendUser = (boolean, pseudo, role) => {
-    //     this.props.methode(boolean, pseudo, role);
-    // }
-
-    // changeLoggedIn = (boolean) => {
-    //     this.props.loggedIn = boolean;
-    // } 
-   
-  pageLogin = () => {
-    return <LoginPage name="Page de Login" methode={this.props.methode}/>
+  loginPage = () => {
+    return <LoginPage name="Page de Login" getUser={this.props.getUser}/>
   }
 
-  pageAdmin = () => {
-    return <AdminPage name="Page Admin" />
+  adminPage = () => {
+    return <AdminPage loggedIn={this.props.loggedIn} name="Page Admin" user={this.props.user} deleteUser={this.props.deleteUser} redirect={this.redirectToLogin}/>
   }
+
+  indexPage = () => {
+      return <IndexPage loggedIn={this.props.loggedIn} user={this.props.user} deleteUser={this.props.deleteUser} redirect={this.redirectToLogin}/>
+  }
+
+  editingPage = () => {
+      return <EditingPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+  }
+
+  readingPage = () => {
+      return <ReadingPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} />
+  }
+
+  entitiesPage = () => {
+      return <EntitiesPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+  }
+
+  promoManagementPage = () => {
+      return <PromoManagementPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+  }
+
+  myHeader = () => {
+      return <MyHeader redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} user={this.props.user} />
+  }
+
+
 
   barreNav = () => {
-      return <MyNav user={this.props.user} methode={this.props.methode}/>
+    return <MyNav user={this.props.user} deleteUser={this.props.deleteUser}/>
+  }
+
+  checkRoleForRouting = () => {
+    if (this.props.user.role.name === "administrateur") {
+        return "administrateur"
+      } else {
+          return "accueil"
+      }
+  }
+
+  redirectToLogin = () => {
+      history.push("/welcome");
   } 
 
   componentWillUpdate() {
-      console.log("will update")
+      console.log("MySite will update")
       
   }
   componentDidUpdate() {
-      console.log("did update")
-       this.props.loggedIn ? (history.push('/' + this.props.user.role) ) : (history.push('/') );
+      console.log("MySite did update")      
+       this.props.loggedIn ? ( history.push('/app/' + this.checkRoleForRouting()) ) : (history.push('/welcome') );
   }
 
   componentDidMount () {
-      console.log("did mount")
+      console.log("MySite did mount")
   }
 
   componentWillMount() {
-      console.log("will mount")
+      console.log("MySite will mount")
   }
 
     render() {
-        console.log("render")
+        console.log("MySite render")
         return (
             <Router history={history}>
-        <div>
-
-          nom : {this.props.user.name} et role : {this.props.user.role} et loggedIn : {this.props.loggedIn.toString()}
-          <Route path="/" component={MyHeader} />
-          <Route exact path="/" render={this.pageLogin} />
-          <Route path="/administrateur" render={this.barreNav} />
-          <Route path="/administrateur" render={this.pageAdmin} />
-          {/*{
-            this.props.loggedIn ? (history.push('/admin') ) : (history.push('/') )
-          }*/}
-                           
-                  
-        </div>
+                <div>                    
+                <Route path="/" render={this.myHeader} />
+                <Route exact path="/welcome" render={this.loginPage} />
+                <Route strict path="/app/" render={this.barreNav} />
+                <Route path="/app/administrateur" render={this.adminPage} />
+                <Route exact path="/app/administrateur/création" render={this.entitiesPage} />
+                <Route exact path="/app/administrateur/gestion" render={this.promoManagementPage} />
+                <Route exact path="/app/consultation" render={this.readingPage} />
+                <Route exact path="/app/édition" render={this.editingPage} />
+                <Route path="/app/accueil" render={this.indexPage} />                             
+            </div>
       </Router>     
         );
     }
