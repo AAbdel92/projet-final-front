@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Container, Input, Button, Header, Divider, Icon, Message, Form} from "semantic-ui-react";
+import {Grid, Container, Input, Button, Header, Divider, Icon, Message, Form} from "semantic-ui-react";
 import axios from "axios";
 import MyHeader from "../MyHeader/MyHeader.js";
 
@@ -8,12 +8,22 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHidden : true            
+            isHidden : true,
+            email : "",
+            password : ""            
         }
-    }
+    }   
 
-    addUser = (pseudo, role) => {
-        this.props.user(pseudo, role);
+    handleEmailChange = (event) => {
+        this.setState({
+            email : event.target.value
+        })
+    }
+    
+    handlePasswordChange = (event) => {
+        this.setState({
+            password : event.target.value
+        })
     }
 
     loginCors = (e) => {
@@ -43,11 +53,11 @@ class LoginPage extends Component {
     login = (e) => {
         e.preventDefault();
         const self = this;
-        axios.post("/login?username=" + document.getElementById("email").value + "&password=" + document.getElementById("password").value)
+        axios.post("/login?username=" + this.state.email + "&password=" + this.state.password)
         .then(function (response) {
             let user = {};
-            user["email"] = document.getElementById("email").value;
-            user["password"] = document.getElementById("password").value;
+            user["email"] = self.state.email
+            user["password"] = self.state.password
             axios.post("api/users/logged", user)
                 .then(function (response) {
                     if (response.data != null) {                    
@@ -60,35 +70,62 @@ class LoginPage extends Component {
                         isHidden : false
                     })
                     console.log(error)
-                })         
-            .catch(function (error) {
+                })           
+        })
+        .catch (function (error) {
+            self.setState({
+                        isHidden : false
+                    })
                console.log(error)
-            })
         })
     }    
     
     render() {
-        const isHidden = this.state.isHidden;
+        const isHidden = this.state.isHidden,
+            email = this.state.email,
+            password = this.state.password;
+        
 
         return (
             <div>                
-                <Container as="main" textAlign="center">                    
-                    <Form>
-                        <Input
-                            type="email"
-                            icon={<Icon name='id badge' inverted circular link />}
-                            placeholder="Votre e-mail"
-                            id="email"
-                        />
-                        <Input
-                            type="password"
-                            icon={<Icon name='privacy' inverted circular link />}
-                            placeholder="Votre mot de passe"
-                            id="password"
-                        />                        
-                        {/* A changer en this.login si build*/}
-                        <Button onClick={this.loginCors}>Valider</Button>
-                    </Form>
+                <Container as="main" textAlign="center">
+                    <Divider section />                    
+                    <Header textAlign='center' as="h1">
+                        Bienvenue Simplonien !
+                    </Header>
+                    <Grid columns={2}>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <p>
+                                    Vous êtes sur l'application permettant de gérer la communication 
+                                    entre les différents acteurs d'une promo.
+                                </p>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Form>
+                                    <Input
+                                        type="email"
+                                        icon={<Icon name='id badge' inverted circular link />}
+                                        placeholder="Votre e-mail"
+                                        id="email"
+                                        value={email}
+                                        onChange={this.handleEmailChange}
+                                    />
+                                    <Input
+                                        type="password"
+                                        icon={<Icon name='privacy' inverted circular link />}
+                                        placeholder="Votre mot de passe"
+                                        id="password"
+                                        value={password}
+                                        onChange={this.handlePasswordChange}
+                                    />                        
+                                    {/* A changer en this.login si build*/}
+                                    <Button onClick={this.loginCors}>Valider</Button>
+                                </Form>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>                                        
+                    
                     <Message hidden={isHidden} error={!isHidden}>
                             <Message.Header>
                             Problème de connexion

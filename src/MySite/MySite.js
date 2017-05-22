@@ -83,6 +83,7 @@ class MySite extends Component {
   }
 
   componentWillMount() {
+      this.redirectToLogin();
       console.log("MySite will mount")
   }
 
@@ -90,7 +91,7 @@ class MySite extends Component {
         console.log("MySite render")
         return (
             <Router history={history}>
-                <div>                    
+                <div>                                   
                 <Route path="/" render={this.myHeader} />
                 <Route exact path="/welcome" render={this.loginPage} />
                 <Route strict path="/app/" render={this.barreNav} />

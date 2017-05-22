@@ -26,19 +26,19 @@ class App extends Component {
 
      componentDidMount() {
        console.log("App did mount")
-       this.checkLocalStorage();
+       this.checkSessionStorage();
      }
 
      componentDidUpdate(prevProps, prevState) {
         console.log("App did update")
-        localStorage.setItem('state', JSON.stringify(this.state));
+        sessionStorage.setItem('state', JSON.stringify(this.state));
 }
 
-     checkLocalStorage = () => {
+     checkSessionStorage = () => {
        try {
-         if (localStorage.getItem('state') !== null) {
+         if (sessionStorage.getItem('state') !== null) {
          this.setState((prevState) => {
-          return prevState = JSON.parse(localStorage.getItem('state'))
+          return prevState = JSON.parse(sessionStorage.getItem('state'))
         });
          }
        } catch (err) {
