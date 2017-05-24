@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import {Router, Route, IndexRoute} from "react-router";
-import {Card} from "semantic-ui-react";
+import {Router, Route} from "react-router";
 import MyHeader from "../MyHeader/MyHeader.js";
 import MyNav from "../MyNav/MyNav.js";
 import LoginPage from "../LoginPage/LoginPage.js";
 import AdminPage from "../AdminPage/AdminPage.js";
 import IndexPage from "../IndexPage/IndexPage.js";
-import NotFound from "../NotFound/NotFound.js";
 import EditingPage from "../EditingPage/EditingPage.js";
 import ReadingPage from "../ReadingPage/ReadingPage.js";
 import EntitiesPage from "../EntitiesPage/EntitiesPage.js";
@@ -53,7 +51,7 @@ class MySite extends Component {
 
 
 
-  barreNav = () => {
+ myNav = () => {
     return <MyNav user={this.props.user} deleteUser={this.props.deleteUser}/>
   }
 
@@ -69,32 +67,24 @@ class MySite extends Component {
       history.push("/welcome");
   } 
 
-  componentWillUpdate() {
-      console.log("MySite will update")
-      
-  }
+  
   componentDidUpdate() {
-      console.log("MySite did update")      
        this.props.loggedIn ? ( history.push('/app/' + this.checkRoleForRouting()) ) : (history.push('/welcome') );
   }
 
-  componentDidMount () {
-      console.log("MySite did mount")
-  }
+  
 
   componentWillMount() {
       this.redirectToLogin();
-      console.log("MySite will mount")
   }
 
     render() {
-        console.log("MySite render")
         return (
             <Router history={history}>
                 <div>                                   
                 <Route path="/" render={this.myHeader} />
                 <Route exact path="/welcome" render={this.loginPage} />
-                <Route strict path="/app/" render={this.barreNav} />
+                <Route strict path="/app/" render={this.myNav} />
                 <Route path="/app/administrateur" render={this.adminPage} />
                 <Route exact path="/app/administrateur/création" render={this.entitiesPage} />
                 <Route exact path="/app/administrateur/gestion" render={this.promoManagementPage} />

@@ -17,7 +17,7 @@ class ReadingPage extends Component {
            this.props.redirect();
         } else {
             const self = this;
-            axios.get("http://localhost:8080/api/diaries?consulter=true&promoId=" 
+            axios.get("/api/diaries?consulter=true&promoId=" 
                         + self.props.user.promo.id
                         + "&studentId="
                         + self.props.user.id
@@ -46,7 +46,7 @@ class ReadingPage extends Component {
                         Consultation des carnets de bord
                 </Header>
                 <Divider className="test" section />
-                <Grid doubling columns={3} divided="vertically">
+                <Grid doubling centered columns={3} divided="vertically">
                     
                         {this.state.diaries.map(
                         diary => (

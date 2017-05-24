@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {Container, Header, Divider} from "semantic-ui-react";
 
-import MyHeader from "../MyHeader/MyHeader.js";
-import MyNav from "../MyNav/MyNav.js";
-
 class IndexPage extends Component {
 
     componentWillMount() {

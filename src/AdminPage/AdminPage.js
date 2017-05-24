@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {Container, Header, Divider} from "semantic-ui-react";
-import {Card} from "semantic-ui-react";
-import MyHeader from "../MyHeader/MyHeader.js";
-import MyNav from "../MyNav/MyNav.js";
+import {Container, Header} from "semantic-ui-react";
 
 class AdminPage extends Component {
 
@@ -13,7 +10,6 @@ class AdminPage extends Component {
     }
 
     render() {
-        console.log("AdminPage render")
         return (
             <div>
                 {/*<MyHeader user={this.props.user}/>

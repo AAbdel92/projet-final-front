@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Grid, Container, Input, Button, Header, Divider, Icon, Message, Form} from "semantic-ui-react";
 import axios from "axios";
-import MyHeader from "../MyHeader/MyHeader.js";
 
 class LoginPage extends Component {
 
@@ -26,30 +25,24 @@ class LoginPage extends Component {
         })
     }
 
-    loginCors = (e) => {
-        e.preventDefault();
-        const self = this;
-        let user = {};
-            user["email"] = document.getElementById("email").value;
-            user["password"] = document.getElementById("password").value;
-        axios.post("http://localhost:8080/api/users/logged", user)
-                .then(function (response) {
-                    //  self.setState({
-                    //     isHidden : true
-                    //  })
-                     self.props.getUser(true, response.data);                   
-                     
-                })
-                .catch(function (error) {
-                    console.log("catch")
-                    self.setState({
-                        isHidden : false
-                    })
-                    
-                })
-    }   
-   
-    // a utiliser après avoir fait un build
+    // loginCors = (e) => {
+    //     e.preventDefault();
+    //     const self = this;
+    //     let user = {};
+    //         user["email"] = document.getElementById("email").value;
+    //         user["password"] = document.getElementById("password").value; 
+    //     axios.post("api/users/logged", user)
+    //             .then(function (response) {
+    //                  self.props.getUser(true, response.data);  
+    //             })
+    //             .catch(function (error) {
+    //                 console.log("catch")
+    //                 self.setState({
+    //                     isHidden : false
+    //                 })
+    //             })
+    // }  
+
     login = (e) => {
         e.preventDefault();
         const self = this;
@@ -63,20 +56,19 @@ class LoginPage extends Component {
                     if (response.data != null) {                    
                      self.props.getUser(true, response.data);
                     }
-                     console.log(response)
                 })
                 .catch(function (error) {
                     self.setState({
                         isHidden : false
                     })
-                    console.log(error)
+                    console.log("erreur recup data")
                 })           
         })
         .catch (function (error) {
             self.setState({
                         isHidden : false
                     })
-               console.log(error)
+               console.log("erreur login")
         })
     }    
     
@@ -84,7 +76,6 @@ class LoginPage extends Component {
         const isHidden = this.state.isHidden,
             email = this.state.email,
             password = this.state.password;
-        
 
         return (
             <div>                
@@ -93,34 +84,40 @@ class LoginPage extends Component {
                     <Header textAlign='center' as="h1">
                         Bienvenue Simplonien !
                     </Header>
-                    <Grid columns={2}>
+                    <Grid padded doubling centered columns={2}>
                         <Grid.Row>
                             <Grid.Column>
                                 <p>
                                     Vous êtes sur l'application permettant de gérer la communication 
-                                    entre les différents acteurs d'une promo.
+                                    entre les différents acteurs d'une promo. Veuillez vous identifier 
+                                    pour continuer.
                                 </p>
                             </Grid.Column>
                             <Grid.Column>
-                                <Form>
+                                <Form widths="equal">
+                                    <Form.Field>
+                                        <Input
+                                            size="tiny"
+                                            type="email"
+                                            icon={<Icon name='id badge' inverted circular link />}
+                                            placeholder="Votre e-mail"
+                                            id="email"
+                                            value={email}
+                                            onChange={this.handleEmailChange}
+                                        />
+                                    </Form.Field>
+                                    <Form.Field>
                                     <Input
-                                        type="email"
-                                        icon={<Icon name='id badge' inverted circular link />}
-                                        placeholder="Votre e-mail"
-                                        id="email"
-                                        value={email}
-                                        onChange={this.handleEmailChange}
-                                    />
-                                    <Input
+                                        size="tiny"
                                         type="password"
                                         icon={<Icon name='privacy' inverted circular link />}
                                         placeholder="Votre mot de passe"
                                         id="password"
                                         value={password}
                                         onChange={this.handlePasswordChange}
-                                    />                        
-                                    {/* A changer en this.login si build*/}
-                                    <Button onClick={this.loginCors}>Valider</Button>
+                                    />
+                                    </Form.Field>
+                                    <Button onClick={this.login}>Valider</Button>
                                 </Form>
                             </Grid.Column>
                         </Grid.Row>
