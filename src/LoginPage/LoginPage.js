@@ -46,7 +46,7 @@ class LoginPage extends Component {
     login = (e) => {
         e.preventDefault();
         const self = this;
-        axios.post("/login?username=" + this.state.email + "&password=" + this.state.password)
+        axios.post("/login?email=" + this.state.email + "&password=" + this.state.password)
         .then(function (response) {
             let user = {};
             user["email"] = self.state.email

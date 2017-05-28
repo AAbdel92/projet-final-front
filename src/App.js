@@ -71,10 +71,33 @@ deleteUser = () => {
   })
 }
 
+getPromoId = () => {       
+        if (this.state.user.promo !== undefined) {
+                return this.state.user.promo.id
+            } else {
+                return this.state.user.pair.promo.id
+            }
+    }
+
+getStudentId = () => {        
+    if (this.state.user.pair !== undefined) {
+            return this.state.user.pair.id
+        } else {
+            return this.state.user.id
+        }
+}
+
   render() {
     console.log("App render")   
     return (      
-        <MySite user={this.state.user} loggedIn={this.state.loggedIn} getUser={this.getUser} deleteUser={this.deleteUser}/>
+        <MySite
+          user={this.state.user}
+          loggedIn={this.state.loggedIn}
+          getUser={this.getUser}
+          deleteUser={this.deleteUser}
+          promoId={this.getPromoId}
+          studentId={this.getStudentId}
+        />
     );
   }
 }

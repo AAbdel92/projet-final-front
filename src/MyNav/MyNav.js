@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import {Container, Menu} from "semantic-ui-react";
-import {Link} from "react-router-dom";
-import LinkItem from "./LinkItem/LinkItem.js";
+import {Container} from "semantic-ui-react";
 import axios from "axios";
 import MyMenu from "./MyMenu/MyMenu.js";
-
-let firstLinkTo = "",
-    firstLinkName = "",
-    secondLinkTo = "",
-    secondLinkName = ""
 
 class MyNav extends Component {
 
@@ -33,7 +26,7 @@ class MyNav extends Component {
         linksByRole = (arrayOfLinks) => {
            const roleName = this.props.user.role.name;
            let result = []
-           if (arrayOfLinks != null) {
+           if (arrayOfLinks !== null) {
             let result = arrayOfLinks
            }
             
@@ -54,71 +47,42 @@ class MyNav extends Component {
                             url : "/app/consultation",
                             name : "Consultation des carnets de bord"
                         },{
-                            url :  "/app/édition",
+                            url :  "/app/édition_réponses",
                             name : "Edition des carnets de bord"
                         }    
                             )            
                 } else {
                     console.log("role formateur")           
                     result.push(
-                            {
-                            url : "/app/consultation",
-                            name : "Consultation des carnets de bord"
-                        },{
-                            url :  "/app/édition",
-                            name : "Edition des carnets de bord"
-                        },{
-                            url : "/app/finalisation",
-                            name : "Finalisation des carnets de bord"
-                        }    
-                            )
+                        {
+                            url: "/app/création",
+                            name: "Création des carnets de bord"
+                        }, {
+                            url: "/app/consultation",
+                            name: "Consultation des carnets de bord"
+                        }, {
+                            url: "/app/édition_questionnaire",
+                            name: "Edition des carnets de bord"
+                        }, {
+                            url: "/app/édition_conclusions",
+                            name: "Finalisation des carnets de bord"
+                        }
+                    )
                 }
                 return result;
-           
-
-        // if (result != this.state.links) {
-        //     console.log("setState du remplissage des links")
-        //     this.setState({
-        //         links : result
-        //     })
-        // }
-        
-                                 
-                // firstLinkTo = "/app/administrateur/création",
-                // firstLinkName = "Création des entités",
-                // secondLinkTo = "/app/administrateur/gestion",
-                // secondLinkName = "Gestion des promos"                            
-                            
-          
-               
-            
-                // firstLinkTo = "/app/consultation",
-                // firstLinkName = "Consultation des carnets de bord",
-                // secondLinkTo = "/app/édition",
-                // secondLinkName = "Edition des carnets de bord"
-            
-            
     }
        
     componentWillUpdate() {
         console.log("will update mynav")
         console.log(this.linksByRole(null))
         console.log(this.state.links)
-        if ( this.linksByRole(null).length != this.state.links.length && this.linksByRole[0] != this.state.links[0]) {            
+        if ( this.linksByRole(null).length !== this.state.links.length && this.linksByRole[0] !== this.state.links[0]) {            
             this.setState({
                 links : this.linksByRole(this.state.links)
             })
         }
-       
-     
-    }    
-
-    loggingOutCors = (e, {name}) => {
-        
-        this.handleItemClick(e, { name });
-        this.props.deleteUser();        
     }
-    // à utiliser quand on build
+
     loggingOut = (e, { name }) => {
         const self = this;
         this.handleItemClick(e, { name });
@@ -133,7 +97,6 @@ class MyNav extends Component {
     }  
     
     render() {
-
         const activeItem = this.state.activeItem;
         const links = this.state.links;
         

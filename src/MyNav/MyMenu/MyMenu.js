@@ -34,12 +34,13 @@ class MyMenu extends Component {
 
         const links = this.props.items;
         console.log("My menu links : " + links)
+        console.log(Math.floor(16 / (this.state.linksCount + 1)))
         const activeItem = this.state.activeItem;
         return (
-            <Menu pointing color="red" widths={Math.floor(16 / (this.state.linksCount + 1))}>
+            <Menu as="menu" pointing color="red" widths={this.state.linksCount + 1}>
                     {links.map(
-                        link => (
-                            <LinkItem link={link} activeItem={activeItem} handleClick={this.handleItemClick}/>
+                        (link, index) => (
+                            <LinkItem key={index} link={link} activeItem={activeItem} handleClick={this.handleItemClick}/>
                         )
                     )}
                                              

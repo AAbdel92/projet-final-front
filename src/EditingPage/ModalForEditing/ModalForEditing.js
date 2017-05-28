@@ -76,49 +76,49 @@ class ModalForEditing extends Component {
         const diary = this.props.diary;
         let inputId = 0;
         return (
-                    <Modal dimmer="blurring" key={diary.id} trigger={                                                                
-                        <Card as="article" color="red">                                   
-                            <Card.Content>                                                    
-                                <Label  color='red' ribbon>{diary.name}</Label>                                                                                    
-                                <Card.Meta>
-                                    Du {new Date(diary.startDate).toLocaleDateString()} au {new Date(diary.endDate).toLocaleDateString()}
-                                </Card.Meta>  
-                            </Card.Content>                                                                                                  
-                        </Card>                                                                
-                    }>                            
-                        <Label id="diary" tag size="big" color='red'>{diary.name}</Label>                                
-                            <Modal.Content>                                  
-                            <Modal.Description>
-                                <Header>Introduction</Header>                                        
-                                {diary.introduction}
-                            </Modal.Description>
-                            <Divider section />
-                            <Modal.Description>
-                                <Grid centered columns={2}>
-                                    <Grid.Row >
-                                        <Grid.Column textAlign="center">
-                                            <Header>Questions</Header>
-                                        </Grid.Column>
-                                        <Grid.Column textAlign="center">
-                                            <Header>Réponses</Header>
-                                        </Grid.Column>
-                                    </Grid.Row>                                                                                                                                       
-                                    {                                               
-                                        diary.questions.map(
-                                            (question) => (                                                
-                                                <QuestionRow input={++inputId} getAnswer={this.getAnswer} key={question.id} question={question} />
-                                            )
-                                        )
-                                    }
-                                        <Grid.Row columns={1}>
-                                            <Button onClick={this.sendAnswers} positive>
-                                                Valider
+            <Modal dimmer="blurring" key={diary.id} trigger={
+                <Card as="article" color="red">
+                    <Card.Content>
+                        <Label color='red' ribbon>{diary.name}</Label>
+                        <Card.Meta>
+                            Du {new Date(diary.startDate).toLocaleDateString()} au {new Date(diary.endDate).toLocaleDateString()}
+                        </Card.Meta>
+                    </Card.Content>
+                </Card>
+            }>
+                <Label id="diary" tag size="big" color='red'>{diary.name}</Label>
+                <Modal.Content>
+                    <Modal.Description>
+                        <Header>Introduction</Header>
+                        {diary.introduction}
+                    </Modal.Description>
+                    <Divider section />
+                    <Modal.Description>
+                        <Grid centered columns={2}>
+                            <Grid.Row >
+                                <Grid.Column textAlign="center">
+                                    <Header>Questions</Header>
+                                </Grid.Column>
+                                <Grid.Column textAlign="center">
+                                    <Header>Réponses</Header>
+                                </Grid.Column>
+                            </Grid.Row>
+                            {
+                                diary.questions.map(
+                                    (question) => (
+                                        <QuestionRow input={++inputId} getAnswer={this.getAnswer} key={question.id} question={question} />
+                                    )
+                                )
+                            }
+                            <Grid.Row columns={1}>
+                                <Button onClick={this.sendAnswers} positive>
+                                    Valider
                                             </Button>
-                                        </Grid.Row>
-                                        </Grid>
-                                    </Modal.Description>                                    
-                                </Modal.Content>
-                            </Modal>
+                            </Grid.Row>
+                        </Grid>
+                    </Modal.Description>
+                </Modal.Content>
+            </Modal>
         );
     }
 }

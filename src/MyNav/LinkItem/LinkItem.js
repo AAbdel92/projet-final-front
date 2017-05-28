@@ -17,7 +17,7 @@ class LinkItem extends Component {
                 to={url}
                 name={name}
                 active={activeItem === name}
-                onClick={this.props.handleClick}
+                onClick={clicked}
                 
             >
                 {name}

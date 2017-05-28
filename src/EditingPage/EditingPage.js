@@ -33,46 +33,54 @@ class EditingPage extends Component {
         }  
     }
 
+    
+
+    
+
     getDiaries = () => {
         const self = this;
-            return axios.get("/api/diaries?promoId="
-                + self.props.user.promo.id
-                + "&studentId="
-                + self.props.user.id
-                + "&userRole="
-                + self.props.user.role.name)
+        const promoId = self.props.promoId();
+        const studentId = self.props.studentId();
+        const role = self.props.user.role.name;
+
+        return axios.get("/api/diaries?promoId="
+            + promoId
+            + "&studentId="
+            + studentId
+            + "&userRole="
+            + role)
             .then((response) => {
                 self.setState({
-                    diaries : response.data,
-                    update : false
+                    diaries: response.data,
+                    update: false
                 }, () => {
-                    let content;                    
+                    let content;
                     self.state.diaries.length > 0 ? (
                         content = self.state.diaries.map(
-                                    diary => (
-                                        <Grid.Column>
-                                            <ModalForEditing update={self.update} user={self.props.user} key={diary.id} diary={diary} />                         
-                                    </Grid.Column>
-                                    )
-                                )
+                            diary => (
+                                <Grid.Column key={diary.id}>
+                                    <ModalForEditing update={self.update} user={self.props.user} diary={diary} />
+                                </Grid.Column>
+                            )
+                        )
                     ) : (
-                        content = <Message positive>
-                                        <Message.Header>
-                                        Vous avez déjà répondu à toutes les questions qui vous concernent !
+                            content = <Message positive>
+                                <Message.Header>
+                                    Vous avez déjà répondu à toutes les questions qui vous concernent !
                                         </Message.Header>
-                                        <p>
-                                        Vous pouvez consulter les carnets remplis via le lien correspondant
+                                <p>
+                                    Vous pouvez consulter les carnets remplis via le lien correspondant
                                         </p>
-                                </Message>
-                    );
+                            </Message>
+                        );
                     self.setState({
-                        content : content
+                        content: content
                     })
                 })
             })
             .catch(function (err) {
                 console.log(err)
-            })         
+            })
     }   
 
     componentDidUpdate() {
@@ -87,7 +95,7 @@ class EditingPage extends Component {
         })
     }
 
-    render() {
+    render() {        
         const content = this.state.content;
         return (
             <Container as="main" text>

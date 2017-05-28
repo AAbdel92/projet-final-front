@@ -7,6 +7,8 @@ import AdminPage from "../AdminPage/AdminPage.js";
 import IndexPage from "../IndexPage/IndexPage.js";
 import EditingPage from "../EditingPage/EditingPage.js";
 import ReadingPage from "../ReadingPage/ReadingPage.js";
+import ReadingPageForFormateur from "../ReadingPageForFormateur/ReadingPageForFormateur.js";
+import ConclusionsEditingPage from "../ConclusionsEditingPage/ConclusionsEditingPage.js";
 import EntitiesPage from "../EntitiesPage/EntitiesPage.js";
 import PromoManagementPage from "../PromoManagementPage/PromoManagementPage.js";
 import createBrowserHistory from "history/createBrowserHistory";
@@ -30,26 +32,40 @@ class MySite extends Component {
   }
 
   editingPage = () => {
-      return <EditingPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+      return <EditingPage
+                promoId={this.props.promoId}
+                studentId={this.props.studentId}
+                user={this.props.user}
+                redirect={this.redirectToLogin}
+                loggedIn={this.props.loggedIn}
+             />
   }
 
   readingPage = () => {
-      return <ReadingPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} />
+          return <ReadingPage
+              promoId={this.props.promoId}
+              studentId={this.props.studentId}
+              user={this.props.user}
+              redirect={this.redirectToLogin}
+              loggedIn={this.props.loggedIn}
+          />
+  }
+
+  conclusionsEditingPage = () => {
+      return <ConclusionsEditingPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} />
   }
 
   entitiesPage = () => {
-      return <EntitiesPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+      return <EntitiesPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} />
   }
 
   promoManagementPage = () => {
-      return <PromoManagementPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn}/>
+      return <PromoManagementPage user={this.props.user} redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} />
   }
 
   myHeader = () => {
       return <MyHeader redirect={this.redirectToLogin} loggedIn={this.props.loggedIn} user={this.props.user} />
   }
-
-
 
  myNav = () => {
     return <MyNav user={this.props.user} deleteUser={this.props.deleteUser}/>
@@ -65,7 +81,9 @@ class MySite extends Component {
 
   redirectToLogin = () => {
       history.push("/welcome");
-  } 
+  }
+
+   
 
   
   componentDidUpdate() {
@@ -89,7 +107,10 @@ class MySite extends Component {
                 <Route exact path="/app/administrateur/création" render={this.entitiesPage} />
                 <Route exact path="/app/administrateur/gestion" render={this.promoManagementPage} />
                 <Route exact path="/app/consultation" render={this.readingPage} />
-                <Route exact path="/app/édition" render={this.editingPage} />
+                <Route exact path="/app/édition_réponses" render={this.editingPage} />
+                <Route exact path="/app/création" render={this.diaryCreationPage} />
+                <Route exact path="/app/édition_conclusions" render={this.conclusionsEditingPage} />                
+                <Route exact path="/app/édition_questionnaire" render={this.questionEditingPage} />
                 <Route path="/app/accueil" render={this.indexPage} />                             
             </div>
       </Router>     
