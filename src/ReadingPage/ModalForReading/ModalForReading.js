@@ -57,7 +57,7 @@ class ModalForReading extends Component {
 
         const diary = this.props.diary;
         return (
-            <Modal dimmer="blurring" trigger={
+            <Modal closeIcon dimmer="blurring" trigger={
 
                 <Card as="article" color="red">
                     <Popup trigger={
