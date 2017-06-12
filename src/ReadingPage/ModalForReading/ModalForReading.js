@@ -16,7 +16,9 @@ class ModalForReading extends Component {
             let options = [];
             diary.conclusions.map(
                 (conclusion, index) => (
-                    options.push({key:conclusion.user.id, text:conclusion.user.firstname, value:conclusion.user.firstname})                        
+                    options.push({key:conclusion.user.id,
+                        text:conclusion.user.firstname,
+                        value:conclusion.user.firstname})                        
                 )
             )
             let content =   <Modal.Description>

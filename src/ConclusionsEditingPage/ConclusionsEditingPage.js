@@ -5,13 +5,13 @@ import ModalForReading from "../ReadingPage/ModalForReading/ModalForReading.js";
 import ModalForEditingConclusion from "./ModalForEditingConclusion/ModalForEditingConclusion.js";
 
 const defaultMessageForModal =    <Grid.Row>
-                                        <Grid.Column textAlign="centered">
+                                        <Grid.Column textAlign="center">
                                             <Message info content="Aucune conclusion à rédiger pour cet apprenant" />
                                         </Grid.Column>
                                     </Grid.Row>
 
 const defaultMessageForUsers =  <Grid.Row>
-                                    <Grid.Column  textAlign="centered">
+                                    <Grid.Column  textAlign="center">
                                         <Message info content="Aucune conclusion à rédiger pour ce carnet" />
                                     </Grid.Column>
                                 </Grid.Row>
@@ -38,11 +38,7 @@ class ConclusionsEditingPage extends Component {
         const self = this;
         const userRole = this.props.user.role.name;
         const promoId = this.props.user.promo.id;
-        axios.get("/api/diaries?userRole="
-            + userRole
-            + "&questions=true"
-            + "&promoId="
-            + promoId)
+        axios.get(`/api/diaries?userRole=${userRole}&questions=true&promoId=${promoId}`)
             .then((response) => {
                 self.setState({
                     diaries: response.data
